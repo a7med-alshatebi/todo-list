@@ -28,6 +28,18 @@ export default function Home() {
     );
   };
 
+  const handleDeleteTask = (id: number) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
+
+  const handleEditTask = (id: number, newText: string) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, text: newText } : task
+      )
+    );
+  };
+
   return (
     <div className="flex min-h-screen items-start justify-center bg-zinc-50 px-6 py-12 font-sans dark:bg-black">
       <main className="w-full max-w-2xl rounded-2xl bg-white p-8 shadow-sm dark:bg-zinc-900">
@@ -51,7 +63,13 @@ export default function Home() {
           ) : (
             <ul className="mt-4 flex flex-col gap-3">
               {tasks.map((task) => (
-                <TaskItem key={task.id} task={task} onToggle={handleToggleTask} />
+                <TaskItem 
+                  key={task.id} 
+                  task={task} 
+                  onToggle={handleToggleTask}
+                  onDelete={handleDeleteTask}
+                  onEdit={handleEditTask}
+                />
               ))}
             </ul>
           )}
