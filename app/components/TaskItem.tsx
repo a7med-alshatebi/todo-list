@@ -18,9 +18,9 @@ type TaskItemProps = {
 };
 
 const priorityStyles = {
-  low: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
-  medium: "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300",
-  high: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
+  low: "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm",
+  medium: "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm",
+  high: "bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-sm",
 };
 
 export default function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemProps) {
@@ -41,12 +41,12 @@ export default function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemP
   };
 
   return (
-    <li className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 shadow-sm dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100">
+    <li className="flex items-center gap-3 rounded-2xl border-2 border-indigo-100 bg-white px-4 py-4 shadow-md transition hover:shadow-lg dark:border-indigo-900/50 dark:bg-zinc-900/80">
       <input
         type="checkbox"
         checked={task.completed}
         onChange={() => onToggle(task.id)}
-        className="h-4 w-4 cursor-pointer rounded border-zinc-300 text-zinc-900 focus:ring-2 focus:ring-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:ring-zinc-500"
+        className="h-5 w-5 cursor-pointer rounded-lg border-2 border-indigo-300 text-indigo-600 transition focus:ring-2 focus:ring-indigo-400 dark:border-indigo-700 dark:bg-zinc-800 dark:text-indigo-500 dark:focus:ring-indigo-600"
       />
       
       <div className="flex flex-1 flex-col gap-2">
@@ -59,16 +59,16 @@ export default function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemP
               if (e.key === "Enter") handleSave();
               if (e.key === "Escape") handleCancel();
             }}
-            className="rounded border border-zinc-300 bg-white px-2 py-1 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-600 dark:bg-zinc-900 dark:focus:border-zinc-500 dark:focus:ring-zinc-700"
+            className="rounded-lg border-2 border-indigo-300 bg-white px-3 py-1.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 dark:border-indigo-700 dark:bg-zinc-900 dark:focus:border-indigo-600 dark:focus:ring-indigo-900/50"
             autoFocus
           />
         ) : (
-          <span className={`break-words ${task.completed ? "text-zinc-400 line-through dark:text-zinc-500" : ""}`}>
+          <span className={`break-words text-zinc-900 dark:text-zinc-100 ${task.completed ? "text-zinc-400 line-through dark:text-zinc-500" : ""}`}>
             {task.text}
           </span>
         )}
-        <span className={`inline-flex w-fit items-center rounded-full px-2 py-0.5 text-xs font-medium ${priorityStyles[task.priority]}`}>
-          {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+        <span className={`inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${priorityStyles[task.priority]}`}>
+          {task.priority}
         </span>
       </div>
 
@@ -77,13 +77,13 @@ export default function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemP
           <>
             <button
               onClick={handleSave}
-              className="rounded px-2 py-1 text-xs font-medium text-green-600 transition hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-950"
+              className="rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:from-emerald-600 hover:to-teal-600 hover:shadow-md"
             >
               Save
             </button>
             <button
               onClick={handleCancel}
-              className="rounded px-2 py-1 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+              className="rounded-lg bg-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-300 dark:bg-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-600"
             >
               Cancel
             </button>
@@ -92,13 +92,13 @@ export default function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemP
           <>
             <button
               onClick={() => setIsEditing(true)}
-              className="rounded px-2 py-1 text-xs font-medium text-blue-600 transition hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950"
+              className="rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:from-blue-600 hover:to-indigo-600 hover:shadow-md"
             >
               Edit
             </button>
             <button
               onClick={() => onDelete(task.id)}
-              className="rounded px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950"
+              className="rounded-lg bg-gradient-to-r from-rose-500 to-pink-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:from-rose-600 hover:to-pink-600 hover:shadow-md"
             >
               Delete
             </button>
