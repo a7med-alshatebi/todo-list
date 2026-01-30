@@ -80,7 +80,7 @@ export default function Home() {
             Todo List
           </h1>
           <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400 sm:text-sm">
-            Organize your tasks with style and priority.
+            Organize your tasks with priority:)
           </p>
         </header>
 
