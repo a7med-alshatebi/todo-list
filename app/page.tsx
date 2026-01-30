@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import AddTaskForm from "./components/AddTaskForm";
 
 export default function Home() {
   const [tasks, setTasks] = useState<string[]>([]);
+
+  const handleAddTask = (task: string) => {
+    setTasks((prevTasks) => [...prevTasks, task]);
+  };
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-zinc-50 px-6 py-12 font-sans dark:bg-black">
@@ -16,6 +21,10 @@ export default function Home() {
             Start by managing your tasks state.
           </p>
         </header>
+
+        <div className="mb-6">
+          <AddTaskForm onAdd={handleAddTask} />
+        </div>
 
         <section className="rounded-xl border border-dashed border-zinc-200 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
           <p className="font-medium text-zinc-900 dark:text-zinc-100">Current tasks:</p>
