@@ -4,19 +4,22 @@ import { useState } from "react";
 import AddTaskForm from "./components/AddTaskForm";
 import TaskItem from "./components/TaskItem";
 
+export type Priority = "low" | "medium" | "high";
+
 type Task = {
   id: number;
   text: string;
   completed: boolean;
+  priority: Priority;
 };
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const handleAddTask = (task: string) => {
+  const handleAddTask = (task: string, priority: Priority) => {
     setTasks((prevTasks) => [
       ...prevTasks,
-      { id: Date.now(), text: task, completed: false },
+      { id: Date.now(), text: task, completed: false, priority },
     ]);
   };
 

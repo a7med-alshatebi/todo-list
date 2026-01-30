@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import type { Priority } from "../page";
 
 type Task = {
   id: number;
   text: string;
   completed: boolean;
+  priority: Priority;
 };
 
 type TaskItemProps = {
@@ -13,6 +15,12 @@ type TaskItemProps = {
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
   onEdit: (id: number, newText: string) => void;
+};
+
+const priorityStyles = {
+  low: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
+  medium: "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300",
+  high: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
 };
 
 export default function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemProps) {
@@ -41,23 +49,28 @@ export default function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemP
         className="h-4 w-4 cursor-pointer rounded border-zinc-300 text-zinc-900 focus:ring-2 focus:ring-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:ring-zinc-500"
       />
       
-      {isEditing ? (
-        <input
-          type="text"
-          value={editText}
-          onChange={(e) => setEditText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSave();
-            if (e.key === "Escape") handleCancel();
-          }}
-          className="flex-1 rounded border border-zinc-300 bg-white px-2 py-1 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-600 dark:bg-zinc-900 dark:focus:border-zinc-500 dark:focus:ring-zinc-700"
-          autoFocus
-        />
-      ) : (
-        <span className={`flex-1 break-words ${task.completed ? "text-zinc-400 line-through dark:text-zinc-500" : ""}`}>
-          {task.text}
+      <div className="flex flex-1 flex-col gap-2">
+        {isEditing ? (
+          <input
+            type="text"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSave();
+              if (e.key === "Escape") handleCancel();
+            }}
+            className="rounded border border-zinc-300 bg-white px-2 py-1 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-600 dark:bg-zinc-900 dark:focus:border-zinc-500 dark:focus:ring-zinc-700"
+            autoFocus
+          />
+        ) : (
+          <span className={`break-words ${task.completed ? "text-zinc-400 line-through dark:text-zinc-500" : ""}`}>
+            {task.text}
+          </span>
+        )}
+        <span className={`inline-flex w-fit items-center rounded-full px-2 py-0.5 text-xs font-medium ${priorityStyles[task.priority]}`}>
+          {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
         </span>
-      )}
+      </div>
 
       <div className="flex gap-2">
         {isEditing ? (
