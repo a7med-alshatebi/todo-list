@@ -4,11 +4,28 @@ import { useState } from "react";
 import AddTaskForm from "./components/AddTaskForm";
 import TaskItem from "./components/TaskItem";
 
+type Task = {
+  id: number;
+  text: string;
+  completed: boolean;
+};
+
 export default function Home() {
-  const [tasks, setTasks] = useState<string[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const handleAddTask = (task: string) => {
-    setTasks((prevTasks) => [...prevTasks, task]);
+    setTasks((prevTasks) => [
+      ...prevTasks,
+      { id: Date.now(), text: task, completed: false },
+    ]);
+  };
+
+  const handleToggleTask = (id: number) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
   return (
@@ -33,8 +50,8 @@ export default function Home() {
             <p className="mt-2">No tasks yet.</p>
           ) : (
             <ul className="mt-4 flex flex-col gap-3">
-              {tasks.map((task, index) => (
-                <TaskItem key={`${task}-${index}`} task={task} />
+              {tasks.map((task) => (
+                <TaskItem key={task.id} task={task} onToggle={handleToggleTask} />
               ))}
             </ul>
           )}
