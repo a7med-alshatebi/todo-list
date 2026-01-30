@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import AddTaskForm from "./components/AddTaskForm";
+import TaskItem from "./components/TaskItem";
 
 export default function Home() {
   const [tasks, setTasks] = useState<string[]>([]);
@@ -28,7 +29,15 @@ export default function Home() {
 
         <section className="rounded-xl border border-dashed border-zinc-200 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
           <p className="font-medium text-zinc-900 dark:text-zinc-100">Current tasks:</p>
-          <p className="mt-2">{tasks.length === 0 ? "No tasks yet." : `${tasks.length} task(s).`}</p>
+          {tasks.length === 0 ? (
+            <p className="mt-2">No tasks yet.</p>
+          ) : (
+            <ul className="mt-4 flex flex-col gap-3">
+              {tasks.map((task, index) => (
+                <TaskItem key={`${task}-${index}`} task={task} />
+              ))}
+            </ul>
+          )}
         </section>
       </main>
     </div>
