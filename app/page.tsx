@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddTaskForm from "./components/AddTaskForm";
 import TaskItem from "./components/TaskItem";
 
@@ -17,6 +17,27 @@ type Task = {
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load tasks from localStorage on mount
+  useEffect(() => {
+    const storedTasks = localStorage.getItem("todo-tasks");
+    if (storedTasks) {
+      try {
+        setTasks(JSON.parse(storedTasks));
+      } catch (error) {
+        console.error("Failed to parse tasks from localStorage:", error);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save tasks to localStorage whenever they change
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("todo-tasks", JSON.stringify(tasks));
+    }
+  }, [tasks, isLoaded]);
 
   const handleAddTask = (task: string, priority: Priority) => {
     setTasks((prevTasks) => [
